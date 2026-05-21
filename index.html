@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سيكولوجية الثروة — جلسة مراجعة تفاعلية</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f2044;
+    --navy-mid: #1a3260;
+    --navy-light: #243f7a;
+    --gold: #c9a227;
+    --gold-light: #e8c043;
+    --cream: #f7f4ee;
+    --white: #ffffff;
+    --red: #c0392b;
+    --green: #1a7a4a;
+    --gray-light: #f0f2f5;
+    --gray: #8a96a8;
+    --text: #1c2740;
+    --shadow: 0 4px 24px rgba(15,32,68,0.10);
+    --shadow-lg: 0 8px 40px rgba(15,32,68,0.16);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* ===== HEADER ===== */
+  .app-header {
+    background: var(--navy);
+    color: white;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(15,32,68,0.3);
+  }
+
+  .header-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.02em;
+  }
+
+  .header-subtitle {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+  }
+
+  /* ===== TIMER ===== */
+  .timer-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(201,162,39,0.3);
+    border-radius: 50px;
+    padding: 6px 14px;
+  }
+
+  .timer-icon { font-size: 1rem; }
+
+  .timer-display {
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--gold-light);
+    min-width: 52px;
+    text-align: center;
+    direction: ltr;
+  }
+
+  .timer-display.warning { color: #ff6b6b; animation: pulse-red 1s ease infinite; }
+
+  @keyframes pulse-red {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .timer-bar-wrap {
+    width: 90px;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .timer-bar {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: width 1s linear, background 0.3s;
+  }
+
+  .timer-bar.warning { background: #ff6b6b; }
+
+  /* ===== MAIN CONTENT ===== */
+  .main { max-width: 860px; margin: 0 auto; padding: 24px 16px 60px; }
+
+  /* ===== SCREENS ===== */
+  .screen { display: none; animation: fadeIn 0.35s ease; }
+  .screen.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== HOME SCREEN ===== */
+  .home-hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    border-radius: 20px;
+    padding: 36px 32px;
+    color: white;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; left: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(201,162,39,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .home-hero h1 {
+    font-size: 1.7rem;
+    font-weight: 900;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .home-hero h1 span { color: var(--gold-light); }
+
+  .home-hero p {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.7);
+    position: relative;
+  }
+
+  .session-info {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .session-badge {
+    background: rgba(201,162,39,0.2);
+    border: 1px solid rgba(201,162,39,0.4);
+    color: var(--gold-light);
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .activities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .activity-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 2px solid transparent;
+    box-shadow: var(--shadow);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .activity-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--card-accent, var(--navy));
+    transform: scaleX(0);
+    transition: transform 0.25s ease;
+    transform-origin: right;
+  }
+
+  .activity-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--card-accent, var(--navy));
+  }
+
+  .activity-card:hover::after { transform: scaleX(1); }
+
+  .activity-card .icon {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .activity-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 5px;
+  }
+
+  .activity-card p {
+    font-size: 0.78rem;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  /* ===== BACK BUTTON ===== */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: white;
+    border: 1.5px solid #e0e4ed;
+    color: var(--navy);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.2s;
+    font-family: 'Cairo', sans-serif;
+  }
+
+  .back-btn:hover {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+
+  /* ===== SECTION TITLE ===== */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .section-header h2 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .section-header p {
+    font-size: 0.8rem;
+    color: var(--gray);
+  }
+
+  /* ===== FLASHCARDS ===== */
+  .flashcard-wrap {
+    perspective: 1200px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+
+  .flashcard {
+    width: 100%;
+    min-height: 220px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(.4,0,.2,1);
+  }
+
+  .flashcard.flipped { transform: rotateY(180deg); }
+
+  .card-face {
+    position: absolute;
+    width: 100%; height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .card-front {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: white;
+  }
+
+  .card-front .card-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    border: 1px solid rgba(201,162,39,0.3);
+    padding: 3px 12px;
+    border-radius: 20px;
+  }
+
+  .card-front .card-question {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .card-front .flip-hint {
+    margin-top: 18px;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.45);
+  }
+
+  .card-back {
+    background: white;
+    transform: rotateY(180deg);
+    border: 2px solid var(--gold);
+  }
+
+  .card-back .card-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    border: 1px solid rgba(201,162,39,0.4);
+    padding: 3px 12px;
+    border-radius: 20px;
+  }
+
+  .card-back .card-answer {
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  .flashcard-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .nav-btn {
+    background: white;
+    border: 1.5px solid #e0e4ed;
+    color: var(--navy);
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    font-family: 'Cairo', sans-serif;
+  }
+
+  .nav-btn:hover { background: var(--navy); color: white; border-color: var(--navy); }
+  .nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .nav-btn:disabled:hover { background: white; color: var(--navy); border-color: #e0e4ed; }
+
+  .card-counter {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--navy);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .progress-dots {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #dde1ea;
+    transition: all 0.2s;
+  }
+
+  .dot.active { background: var(--navy); transform: scale(1.3); }
+  .dot.seen { background: var(--gold); }
+
+  /* ===== QUIZ ===== */
+  .quiz-progress-bar {
+    height: 6px;
+    background: #e0e4ed;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .quiz-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--navy), var(--gold));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+
+  .quiz-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+
+  .quiz-q-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .quiz-question {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .quiz-option {
+    padding: 13px 18px;
+    border-radius: var(--radius-sm);
+    border: 2px solid #e0e4ed;
+    cursor: pointer;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: all 0.2s;
+    text-align: right;
+    font-family: 'Cairo', sans-serif;
+    background: white;
+    line-height: 1.5;
+  }
+
+  .quiz-option:hover:not(.disabled) {
+    border-color: var(--navy);
+    background: #f0f3ff;
+    transform: translateX(-2px);
+  }
+
+  .quiz-option.correct {
+    border-color: var(--green);
+    background: #e8f7ee;
+    color: var(--green);
+  }
+
+  .quiz-option.wrong {
+    border-color: var(--red);
+    background: #fdf0ef;
+    color: var(--red);
+  }
+
+  .quiz-option.disabled { cursor: default; }
+
+  .quiz-explanation {
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: #fffbf0;
+    border: 1.5px solid rgba(201,162,39,0.3);
+    border-radius: var(--radius-sm);
+    font-size: 0.87rem;
+    color: #6b5a1e;
+    line-height: 1.6;
+    display: none;
+  }
+
+  .quiz-explanation.show { display: block; animation: fadeIn 0.3s ease; }
+  .quiz-explanation strong { color: var(--navy); }
+
+  .quiz-next-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 12px;
+    display: none;
+    font-family: 'Cairo', sans-serif;
+    transition: background 0.2s;
+  }
+
+  .quiz-next-btn.show { display: block; animation: fadeIn 0.3s ease; }
+  .quiz-next-btn:hover { background: var(--navy-light); }
+
+  .quiz-result {
+    text-align: center;
+    background: white;
+    border-radius: var(--radius);
+    padding: 36px 24px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .result-score {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .result-score span { color: var(--gold); }
+
+  .result-msg {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .result-sub {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin-bottom: 24px;
+  }
+
+  .retry-btn {
+    padding: 12px 28px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    transition: background 0.2s;
+  }
+
+  .retry-btn:hover { background: var(--navy-light); }
+
+  /* ===== CONCEPTS ===== */
+  .concepts-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .concept-item {
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border-right: 4px solid var(--concept-color, var(--navy));
+  }
+
+  .concept-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    gap: 12px;
+  }
+
+  .concept-term {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .concept-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--concept-bg, #eef1f8);
+    color: var(--concept-color, var(--navy));
+    white-space: nowrap;
+  }
+
+  .concept-chevron {
+    font-size: 0.8rem;
+    color: var(--gray);
+    transition: transform 0.25s;
+    margin-right: auto;
+  }
+
+  .concept-item.open .concept-chevron { transform: rotate(180deg); }
+
+  .concept-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.25s ease;
+    padding: 0 20px;
+  }
+
+  .concept-item.open .concept-body {
+    max-height: 300px;
+    padding: 0 20px 16px;
+  }
+
+  .concept-def {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text);
+    padding-top: 8px;
+    border-top: 1px solid #f0f2f5;
+  }
+
+  .concept-example {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #f7f9ff;
+    border-radius: var(--radius-sm);
+    font-size: 0.83rem;
+    color: #3a4a6b;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* ===== ANALYST EYE ===== */
+  .analyst-intro {
+    background: linear-gradient(135deg, #0f2044, #243f7a);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    color: white;
+    margin-bottom: 20px;
+    border: 1px solid rgba(201,162,39,0.3);
+  }
+
+  .analyst-intro p { font-size: 0.87rem; color: rgba(255,255,255,0.75); line-height: 1.6; }
+  .analyst-intro strong { color: var(--gold-light); }
+
+  .analyst-question-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 24px 22px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+
+  .analyst-q-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .analyst-q-num {
+    width: 32px; height: 32px;
+    background: var(--navy);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .analyst-q-text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+
+  /* Definition box shown before answer */
+  .definition-box {
+    background: #fffaf0;
+    border: 1.5px solid rgba(201,162,39,0.35);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    display: none;
+  }
+
+  .definition-box.show { display: block; animation: fadeIn 0.3s ease; }
+
+  .def-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 7px;
+  }
+
+  .def-text {
+    font-size: 0.87rem;
+    color: #6b5a1e;
+    line-height: 1.65;
+  }
+
+  .analyst-textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid #e0e4ed;
+    border-radius: var(--radius-sm);
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.92rem;
+    color: var(--text);
+    resize: vertical;
+    min-height: 100px;
+    outline: none;
+    transition: border-color 0.2s;
+    direction: rtl;
+    background: #fafbfd;
+  }
+
+  .analyst-textarea:focus { border-color: var(--navy); background: white; }
+
+  .analyst-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  .hint-btn {
+    padding: 9px 18px;
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    border-radius: 50px;
+    font-size: 0.83rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .hint-btn:hover { background: var(--gold); color: white; }
+
+  .analyze-btn {
+    padding: 9px 20px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.83rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    transition: background 0.2s;
+  }
+
+  .analyze-btn:hover { background: var(--navy-light); }
+
+  .ai-feedback {
+    margin-top: 14px;
+    padding: 14px 16px;
+    background: #f0f4ff;
+    border: 1.5px solid rgba(15,32,68,0.12);
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.7;
+    display: none;
+  }
+
+  .ai-feedback.show { display: block; animation: fadeIn 0.4s ease; }
+  .ai-feedback-title { font-weight: 700; color: var(--navy); margin-bottom: 6px; font-size: 0.85rem; }
+
+  .loading-dots {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .loading-dots span {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--navy);
+    animation: bounce 1s ease infinite;
+  }
+
+  .loading-dots span:nth-child(2) { animation-delay: 0.15s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-6px); }
+  }
+
+  /* ===== NAMES SCREEN ===== */
+  .names-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+
+  .names-tab {
+    padding: 7px 16px;
+    border-radius: 50px;
+    border: 1.5px solid #e0e4ed;
+    background: white;
+    color: var(--gray);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .names-tab.active {
+    background: #7c3aed;
+    color: white;
+    border-color: #7c3aed;
+  }
+
+  .names-tab:hover:not(.active) {
+    border-color: #7c3aed;
+    color: #7c3aed;
+  }
+
+  .names-front {
+    background: linear-gradient(135deg, #4c1d95, #7c3aed) !important;
+  }
+
+  .names-back {
+    border-color: #7c3aed !important;
+  }
+
+  .names-cat-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #e9d5ff;
+    border: 1px solid rgba(233,213,255,0.4);
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .names-card-home { grid-column: 1 / -1; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 520px) {
+    .activities-grid { grid-template-columns: 1fr; }
+    .home-hero h1 { font-size: 1.35rem; }
+    .card-face { padding: 24px 18px; }
+    .card-front .card-question { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div>
+    <div class="header-title">سيكولوجية الثروة</div>
+    <div class="header-subtitle">جلسة مراجعة تفاعلية · 15 دقيقة</div>
+  </div>
+  <div class="timer-wrap">
+      <span class="timer-icon">⏱</span>
+      <div>
+        <div class="timer-display" id="timerDisplay">15:00</div>
+        <div class="timer-bar-wrap">
+          <div class="timer-bar" id="timerBar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- HOME SCREEN -->
+  <div class="screen active" id="homeScreen">
+    <div class="home-hero">
+      <h1>المخطط الشامل للمحلل الاقتصادي<br><span>ابدأ رحلتك نحو الخبرة</span></h1>
+      <p>لماذا يفشل الأذكياء، وكيف يبني المنضبطون ثروات الأجيال</p>
+      <div class="session-info">
+        <span class="session-badge">⏱ 15 دقيقة</span>
+        <span class="session-badge">🃏 10 بطاقات</span>
+        <span class="session-badge">❓ 8 أسئلة</span>
+        <span class="session-badge">📋 12 مفهوم</span>
+        <span class="session-badge">🔍 5 تحليلات</span>
+        <span class="session-badge">🏷️ 25 اسم ومصطلح</span>
+      </div>
+    </div>
+
+    <div class="activities-grid">
+      <div class="activity-card" style="--card-accent:#0f2044" onclick="showScreen('flashcardsScreen')">
+        <span class="icon">🃏</span>
+        <h3>بطاقات المراجعة</h3>
+        <p>راجع المفاهيم الرئيسية واقلب البطاقة لترى الإجابة</p>
+      </div>
+      <div class="activity-card" style="--card-accent:#c9a227" onclick="showScreen('quizScreen')">
+        <span class="icon">❓</span>
+        <h3>اختبار متعدد الخيارات</h3>
+        <p>اختبر فهمك بـ 8 أسئلة مباشرة مع شرح فوري</p>
+      </div>
+      <div class="activity-card" style="--card-accent:#1a7a4a" onclick="showScreen('conceptsScreen')">
+        <span class="icon">📋</span>
+        <h3>ورقة المفاهيم</h3>
+        <p>مرجع سريع لكل المصطلحات والتعريفات المحورية</p>
+      </div>
+      <div class="activity-card" style="--card-accent:#c0392b" onclick="showScreen('analystScreen')">
+        <span class="icon">🔍</span>
+        <h3>عين المحلل</h3>
+        <p>أسئلة تحليلية عمقية تبنيك كمحلل اقتصادي حقيقي</p>
+      </div>
+      <div class="activity-card names-card-home" style="--card-accent:#7c3aed;" onclick="showScreen('namesScreen')">
+        <span class="icon">🏷️</span>
+        <h3>بطاقات الأسماء والمصطلحات</h3>
+        <p>أشخاص، مؤسسات، مصطلحات إنجليزية ومفاهيم تحليلية متقدمة — كل ما يرفع مستواك لمستوى استثنائي</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS SCREEN -->
+  <div class="screen" id="flashcardsScreen">
+    <button class="back-btn" onclick="showScreen('homeScreen')">← الرئيسية</button>
+
+    <div class="section-header">
+      <div class="section-icon" style="background:#eef1f8">🃏</div>
+      <div>
+        <h2>بطاقات المراجعة</h2>
+        <p>انقر على البطاقة لكشف الإجابة</p>
+      </div>
+    </div>
+
+    <div class="flashcard-wrap" onclick="flipCard()">
+      <div class="flashcard" id="flashcard">
+        <div class="card-face card-front">
+          <div class="card-label">السؤال</div>
+          <div class="card-question" id="cardQuestion">تحميل...</div>
+          <div class="flip-hint">انقر لكشف الإجابة ↺</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-label">الإجابة</div>
+          <div class="card-answer" id="cardAnswer"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard-nav">
+      <button class="nav-btn" id="prevBtn" onclick="changeCard(-1)" disabled>→</button>
+      <span class="card-counter" id="cardCounter">1 / 10</span>
+      <button class="nav-btn" id="nextBtn" onclick="changeCard(1)">←</button>
+    </div>
+
+    <div class="progress-dots" id="progressDots"></div>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div class="screen" id="quizScreen">
+    <button class="back-btn" onclick="showScreen('homeScreen')">← الرئيسية</button>
+
+    <div class="section-header">
+      <div class="section-icon" style="background:#fff8e6">❓</div>
+      <div>
+        <h2>الاختبار التفاعلي</h2>
+        <p id="quizProgress">السؤال 1 من 8</p>
+      </div>
+    </div>
+
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" id="quizProgressFill" style="width:12.5%"></div>
+    </div>
+
+    <div id="quizContent"></div>
+  </div>
+
+  <!-- CONCEPTS SCREEN -->
+  <div class="screen" id="conceptsScreen">
+    <button class="back-btn" onclick="showScreen('homeScreen')">← الرئيسية</button>
+
+    <div class="section-header">
+      <div class="section-icon" style="background:#e8f7ee">📋</div>
+      <div>
+        <h2>ورقة المفاهيم</h2>
+        <p>انقر على أي مصطلح لعرض تعريفه ومثاله</p>
+      </div>
+    </div>
+
+    <div class="concepts-grid" id="conceptsList"></div>
+  </div>
+
+  <!-- ANALYST EYE SCREEN -->
+  <div class="screen" id="analystScreen">
+    <button class="back-btn" onclick="showScreen('homeScreen')">← الرئيسية</button>
+
+    <div class="section-header">
+      <div class="section-icon" style="background:#fdf0ef">🔍</div>
+      <div>
+        <h2>عين المحلل الاقتصادي</h2>
+        <p>أسئلة تبنيك — ليس اختباراً، بل تدريباً</p>
+      </div>
+    </div>
+
+    <div class="analyst-intro">
+      <p><strong>كيف يعمل هذا النشاط:</strong> كل سؤال فيه مصطلح أساسي. اضغط <strong>"أعطني التعريف"</strong> أولاً لتفهم القاعدة، ثم اكتب تحليلك. بعد ذلك اضغط <strong>"انسخ للتحليل مع Claude"</strong> — ستُنسخ إجابتك مع السؤال جاهزةً للصقها في محادثة Claude للحصول على تغذية راجعة مجاناً.</p>
+    </div>
+
+    <div id="analystQuestions"></div>
+  </div>
+
+  <!-- NAMES & TERMS SCREEN -->
+  <div class="screen" id="namesScreen">
+    <button class="back-btn" onclick="showScreen('homeScreen')">← الرئيسية</button>
+
+    <div class="section-header">
+      <div class="section-icon" style="background:#ede9fe">🏷️</div>
+      <div>
+        <h2>الأسماء والمصطلحات</h2>
+        <p>انقر على البطاقة لكشف المعنى</p>
+      </div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="names-tabs" id="namesTabs">
+      <button class="names-tab active" onclick="filterNames('all', this)">الكل</button>
+      <button class="names-tab" onclick="filterNames('person', this)">👤 أشخاص</button>
+      <button class="names-tab" onclick="filterNames('institution', this)">🏛️ مؤسسات</button>
+      <button class="names-tab" onclick="filterNames('term', this)">🔤 مصطلحات</button>
+      <button class="names-tab" onclick="filterNames('advanced', this)">⭐ متقدم</button>
+    </div>
+
+    <div class="flashcard-wrap" onclick="flipNamesCard()">
+      <div class="flashcard" id="namesCard">
+        <div class="card-face card-front names-front">
+          <div class="names-cat-badge" id="namesCatBadge">شخص</div>
+          <div class="card-question" id="namesCardFront">تحميل...</div>
+          <div class="flip-hint">انقر لكشف المعنى ↺</div>
+        </div>
+        <div class="card-face card-back names-back">
+          <div class="card-label" style="color:#7c3aed;border-color:rgba(124,58,237,0.4)">المعنى</div>
+          <div class="card-answer" id="namesCardBack"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flashcard-nav">
+      <button class="nav-btn" id="namesPrevBtn" onclick="changeNamesCard(-1)" disabled>→</button>
+      <span class="card-counter" id="namesCounter">1 / 25</span>
+      <button class="nav-btn" id="namesNextBtn" onclick="changeNamesCard(1)">←</button>
+    </div>
+
+    <div class="progress-dots" id="namesProgressDots"></div>
+  </div>
+
+</main>
+
+<script>
+// ==================== DATA ====================
+
+const flashcards = [
+  { q: "ما هو الوهم العظيم في بناء الثروة؟", a: "الاعتقاد بأن الذكاء وحده يكفي لبناء الثروة. الحقيقة أن الانضباط العاطفي أهم من ذكاء العقل في تحقيق النجاح المالي طويل الأمد." },
+  { q: "ما هو رهان بيبل بيتش وما الدرس الذي يعلّمه؟", a: "عام 1989 عُرض على وارن بافيت رهان: يكسب 100,000$ إن أدخل كرة الغولف في الحفرة بضربة واحدة، أو يخسر 10$ فقط. رفض بافيت. الدرس: حتى الاحتمالات الجذابة يجب تجاهلها إذا كانت الخسارة غير المحتملة تشتت التركيز عن الثروة الأكبر." },
+  { q: "ما هي الأربعة مشاعر التي يختبرها المال وتدمر الحسابات المنطقية؟", a: "الطمع (الرغبة في المزيد بأسرع وقت)، الهلع (البيع العشوائي عند أول تراجع)، الأمل (التمسك بقرارات خاسرة انتظاراً لمعجزة)، والغضب (الرغبة في الانتقام من السوق بعد الخسارة)." },
+  { q: "ما هو انحياز الفاعل وما جذره النفسي؟", a: "الميل التلقائي للشخص للتحرك وفعل أي شيء بدل الصبر والانتظار، حتى لو كان الفعل أكثر ضرراً. الجذر النفسي: الدافع الحقيقي هو التخلص من التوتر المصاحب لحالة عدم اليقين في السوق المتقلب." },
+  { q: "ما نتائج دراسة دونيدن الطولية حول ضبط النفس؟", a: "تتبعت 1037 طفلاً لـ35 عاماً. النتيجة: حتى مع تساوي الذكاء والطبقة الاجتماعية، الطفل الأكثر انضباطاً أصبح البالغ الأكثر ثراءً وصحةً وقدرةً على التخطيط طويل الأمد." },
+  { q: "ما هو الفخ السلوكي الثاني: سلوك القطيع ونظرية الندم؟", a: "سلوك القطيع: اتباع المستثمرين للقطيع حتى وهم غير مقتنعين. نظرية الندم: في التمويل السلوكي، يجد المستثمر عزاءً نفسياً في الخسارة الجماعية. 'الخسارة مع الجماعة أسهل عاطفياً من تحمل مسؤولية الموقف الفردي'." },
+  { q: "ما هي استراتيجية اللا-فعل الاستراتيجية عند ربيكا كيندي؟", a: "'الأفق الزمني للمحافظ الاستثمارية أطول بكثير من مدة بقاء أي رئيس في منصبه.' المستثمر الصبور: ثبات، رباطة جأش، تقييم للأساسيات. طالما الأساسيات لم تتغير، فالاستراتيجية هي الجمود التكتيكي." },
+  { q: "ما الذي حدث لدراكنميلر في صندوق كوانتوم 2000؟", a: "أدرك أن فقاعة التكنولوجيا ستنفجر (تحليل سليم)، باع حيازاته (قرار صحيح)، لكنه تحت الضغط النفسي لرؤية الآخرين يربحون، دخل مجدداً بـ6 مليارات، وخسر 3 مليارات في 6 أسابيع. الدرس: المعرفة + الانفعال = صفر." },
+  { q: "ما المعادلة النهائية لبناء الثروة في الأسواق؟", a: "بناء الثروة = (التحليل الأساسي + ذكاء العقل) × الحياد العاطفي. الحياد العاطفي يعمل كعامل مضاعف — إذا كان صفراً، فإن نتيجة أذكى التحليلات ستكون صفراً أيضاً." },
+  { q: "ما هي ثلاثة مبادئ ميثاق المحلل (الدرع النفسي)؟", a: "١- المعرفة وحدها لا تحمي: معرفة المعلومة الصحيحة والتصرف العقلاني وقت الذعر شيء آخر تماماً. ٢- الجمود التكتيكي هو قرار فعّال: عدم فعل شيء أوقات الهلع هو أصعب مهارة وأكثرها ربحية. ٣- العائد الحقيقي هو ثمن الانضباط: السوق أداة فعالة لنقل الثروة من غير الصبورين إلى المنضبطين." }
+];
+
+const quizQuestions = [
+  {
+    q: "ما السبب الرئيسي لفشل الأشخاص في بناء الثروة وفق هذا الدرس؟",
+    options: ["قلة الذكاء", "ضعف التعليم المالي", "غياب الانضباط العاطفي", "قلة رأس المال الأولي"],
+    correct: 2,
+    exp: "الدرس يؤكد أن الكثير من الأشخاص يفشلون ليس بسبب قلة الذكاء، بل لافتقارهم لمهارة ضبط النفس والسيطرة على المشاعر."
+  },
+  {
+    q: "في رهان بيبل بيتش، لماذا رفض وارن بافيت الرهان رغم أن الخسارة المحتملة 10$ فقط؟",
+    options: ["لأن الاحتمال ضده", "لأنه لا يقامر أبداً", "لأنه يركز على الاحتمالية لا على العائد", "لأن 100$ ألف لا تهمه"],
+    correct: 2,
+    exp: "تفكير الخبراء يركز على 'احتمالية النجاح' لا على العائد المحتمل. فرصة إدخال الكرة من ضربة واحدة شبه معدومة، فهو مجرد رمي أموال على الأرض."
+  },
+  {
+    q: "ما الفرق بين 'المستثمر الصبور' و'المضارب شديد النشاط' في التعامل مع القطيع؟",
+    options: ["المستثمر يتبع القطيع بثقة، المضارب يعارضه", "المستثمر يحيد مشاعره ويتمسك بالتحليل، المضارب يتبع القطيع خوفاً من الندم", "لا فرق بينهما", "المضارب أكثر ربحية على المدى القصير دائماً"],
+    correct: 1,
+    exp: "المصفوفة التشخيصية توضح: المستثمر الصبور يحيد مشاعره ويتمسك بالتحليل، بينما المضارب يتبع القطيع خوفاً من الندم والتوتر."
+  },
+  {
+    q: "ما الذي أثبتته دراسة دونيدن عن ضبط النفس؟",
+    options: ["الذكاء هو المتنبئ الأقوى بالثراء", "الطبقة الاجتماعية تحدد المصير المالي", "ضبط النفس في الطفولة يتنبأ بالثراء والصحة في البلوغ", "العوامل الجينية أهم من السلوك"],
+    correct: 2,
+    exp: "الدراسة تابعت 1037 طفلاً لـ35 عاماً وأثبتت أنه حتى مع تساوي الذكاء والطبقة الاجتماعية، الطفل الأكثر انضباطاً أصبح البالغ الأكثر ثراءً وصحةً."
+  },
+  {
+    q: "ما الدرس من قصة ضجيج السوق في انتخابات 2016؟",
+    options: ["الأسواق دائماً تنهار بعد الانتخابات", "الذعر العاطفي يجعل المستثمرين يبيعون بينما الأساسيات لم تتغير", "المستثمر الذكي يبيع قبل الأحداث السياسية", "السياسة أهم من أساسيات الشركات"],
+    correct: 1,
+    exp: "في 9 نوفمبر 2016 هلع المستثمرون وباعوا، بينما ارتفع S&P 500 بـ23% في نهاية العام. الفائز الأكبر كان المستثمر الذي 'وضع يديه في جيبه ولم يفعل شيئاً'."
+  },
+  {
+    q: "ما هو انحياز الفاعل (Action Bias) وكيف يضر المستثمر؟",
+    options: ["التحيز لشراء الأسهم الأكثر نشاطاً", "الميل للتحرك وفعل أي شيء بدل الصبر، حتى لو كان ضاراً", "التحيز نحو الاستثمار في قطاع بعينه", "الميل لتجنب المخاطر في جميع الأحوال"],
+    correct: 1,
+    exp: "انحياز الفاعل هو الميل التلقائي للتحرك والتصرف بدل الانتظار. الجذر النفسي: رغبة في التخلص من توتر عدم اليقين، وهذا يؤدي إلى قرارات ضارة."
+  },
+  {
+    q: "ماذا تعني المعادلة: بناء الثروة = (التحليل + الذكاء) × الحياد العاطفي؟",
+    options: ["الحياد العاطفي يُضاف للتحليل", "الحياد العاطفي غير مهم إذا كان التحليل قوياً", "الحياد العاطفي عامل مضاعف — صفره يُصفّر كل شيء", "التحليل أهم من الحياد العاطفي دائماً"],
+    correct: 2,
+    exp: "الحياد العاطفي يعمل كعامل مضاعف وليس معادلاً. كما أثبت دراكنميلر: تحليل صحيح + انفعال = خسارة 3 مليارات."
+  },
+  {
+    q: "ما الذي فعله جيسي ليفرمور الذي جعله يكسب الملايين؟",
+    options: ["القدرة على التحليل الفني المتقدم", "القراءة المستمرة للاقتصاد", "القدرة على الجلوس ثابتاً والصبر", "التنويع في المحافظ الاستثمارية"],
+    correct: 2,
+    exp: "قال ليفرمور: 'عمر ما كان تفكيري أو ذكائي هو السبب في ربح الملايين. السر كان في قدرتي على الجلوس ثابتاً.' الصبر هو المهارة الأعمق."
+  }
+];
+
+const concepts = [
+  { term: "الانضباط العاطفي (Emotional Discipline)", tag: "المفهوم الأساسي", color: "#0f2044", bg: "#eef1f8", def: "القدرة على السيطرة على المشاعر (الخوف، الطمع، الأمل، الغضب) عند اتخاذ قرارات مالية، والتصرف وفق التحليل المنطقي لا الانفعال اللحظي.", example: "مثال: بافيت لم يبع محفظته خلال أزمة 2008 رغم الذعر العام، لأن تحليله للأساسيات لم يتغير." },
+  { term: "انحياز الفاعل (Action Bias)", tag: "فخ سلوكي", color: "#c0392b", bg: "#fdf0ef", def: "الميل التلقائي للتحرك وفعل أي شيء بدل الصبر والانتظار، حتى لو كان الفعل أكثر ضرراً. مصدره النفسي هو التخلص من توتر عدم اليقين.", example: "مثال: مستثمر يبيع أسهمه في أول تراجع خوفاً، ثم يندم عندما تعود للارتفاع." },
+  { term: "سلوك القطيع (Herding Behavior)", tag: "فخ سلوكي", color: "#c0392b", bg: "#fdf0ef", def: "اتجاه المستثمرين لاتباع القطيع في قرارات البيع والشراء حتى وهم غير مقتنعين بتلك القرارات، مدفوعين بالخوف من الندم على الموقف الفردي.", example: "مثال: شراء أسهم التكنولوجيا عام 1999 لأن 'الجميع يشتري'، ثم الانهيار عام 2000." },
+  { term: "نظرية الندم (Regret Theory)", tag: "نفس مالي", color: "#6b21a8", bg: "#f3e8ff", def: "في التمويل السلوكي، يجد المستثمر عزاءً نفسياً في الخسارة الجماعية. الخسارة مع الجماعة أسهل عاطفياً من تحمل مسؤولية الموقف الفردي ضد السوق.", example: "مثال: المستثمر يفضل الخسارة مع الجميع على الربح بقرار منفرد قد يُنتقد." },
+  { term: "الجمود التكتيكي (Strategic Inaction)", tag: "استراتيجية", color: "#1a7a4a", bg: "#e8f7ee", def: "القرار الواعي بعدم التحرك رغم الضغوط، طالما أن الأساسيات لم تتغير. هو مهارة فعلية وليس كسلاً — فالصبر في أوقات الذعر هو أصعب قرار وأكثره ربحية.", example: "مثال: المستثمر الذي لم يبع أثناء ذعر انتخابات 2016 وحقق 23%+ خلال العام." },
+  { term: "مصفوفة الاحتمالات مقابل العوائد", tag: "أداة تحليلية", color: "#0f2044", bg: "#eef1f8", def: "إطار تحليلي يميز بين التركيز على نسبة المخاطرة للعائد (تفكير الهاوي) وبين التركيز على احتمالية النجاح (تفكير الخبراء). الخبراء يرفضون الفرص ذات الاحتمالية المنخفضة حتى لو كان العائد ضخماً.", example: "مثال: رفض بافيت لرهان 10$/100,000$ رغم أن نسبة المكسب/الخسارة 10,000 مقابل 1." },
+  { term: "التمويل السلوكي (Behavioral Finance)", tag: "علم", color: "#0369a1", bg: "#e0f2fe", def: "فرع من الاقتصاد يدرس كيف تؤثر العوامل النفسية والانفعالية على قرارات المستثمرين والأسواق المالية، في مقابل النموذج التقليدي الذي يفترض العقلانية الكاملة.", example: "مثال: تحيزات مثل النفور من الخسارة وتأثير الإطار التي تجعل القرارات غير عقلانية." },
+  { term: "FOMO (الخوف من الفوات)", tag: "تحيز نفسي", color: "#c0392b", bg: "#fdf0ef", def: "Fear Of Missing Out: الخوف النفسي من ضياع فرصة ربح يحققها الآخرون، ما يدفع المستثمر للدخول في مراكز عالية المخاطرة في أسوأ توقيت ممكن.", example: "مثال: دراكنميلر أعاد الدخول لسوق التكنولوجيا 2000 بـ6 مليارات بسبب FOMO، فخسر 3 مليارات." },
+  { term: "الأساسيات (Fundamentals)", tag: "تحليل", color: "#1a7a4a", bg: "#e8f7ee", def: "المعطيات الاقتصادية الجوهرية لشركة أو اقتصاد (الإيرادات، الأرباح، التدفق النقدي، الميزانية العمومية) المستخدمة لتقييم القيمة الحقيقية، بعيداً عن ضجيج السوق العاطفي.", example: "مثال: بافيت يركز على أساسيات الشركة، لا على توقعات السوق اليومية." },
+  { term: "ضبط النفس (Self-Control)", tag: "المفهوم الأساسي", color: "#0f2044", bg: "#eef1f8", def: "القدرة على كبح النزوات العاطفية وتأجيل الإشباع الفوري لصالح الأهداف طويلة الأمد. دراسة دونيدن أثبتت أنه المتنبئ الأقوى بالنجاح المالي والصحي في البلوغ.", example: "مثال: الطفل الذي لم يأكل قطعة الحلوى فوراً في اختبار المارشميلو أصبح أكثر نجاحاً مالياً." },
+  { term: "الأفق الزمني (Time Horizon)", tag: "استراتيجية", color: "#1a7a4a", bg: "#e8f7ee", def: "المدة التي يخطط المستثمر للاحتفاظ بأصله فيها. الأفق الزمني الطويل يمتص تقلبات السوق القصيرة ويحمي من قرارات الذعر، وهو أطول بكثير من عمر أي دورة سياسية أو أزمة.", example: "مثال: المستثمر الذي يفكر بـ20 عاماً لا يتأثر بضجيج انتخابات أو أزمة صحية عابرة." },
+  { term: "نقل الثروة (Wealth Transfer)", tag: "مفهوم اقتصادي", color: "#6b21a8", bg: "#f3e8ff", def: "المبدأ الذي يقول إن السوق ينقل الثروة من غير الصبورين (الذين يتصرفون انفعالياً) إلى المنضبطين (الذين يتمسكون بالتحليل). هو ليس مجرد استعارة بل آلية اقتصادية حقيقية.", example: "مثال: المستثمر الذي باع في قاع 2009 باع أسهمه لمن اشتراها بأسعار منخفضة وربح لاحقاً." }
+];
+
+const analystQuestions = [
+  {
+    q: "تخيل أنك محلل اقتصادي وأمامك سوقان: الأول يرتفع 30% في أسبوعين بسبب 'حمى' الاستثمار الجماعي. الثاني يتراجع 10% رغم أن أساسياته قوية. أين تنصح بالاستثمار ولماذا؟",
+    concept: "سلوك القطيع والأساسيات",
+    definition: "سلوك القطيع: اتجاه المستثمرين لاتباع الجماعة في قرارات الشراء والبيع حتى بغير اقتناع. الأساسيات: المؤشرات الجوهرية للشركة أو الاقتصاد (أرباح، تدفق نقدي، قيمة حقيقية) التي تحدد القيمة الحقيقية بعيداً عن السعر اليومي.",
+    hint: "فكر في: ما الفرق بين السعر والقيمة؟ لماذا يشتري الناس ما ارتفع ويبيعون ما انخفض؟"
+  },
+  {
+    q: "خلال أزمة اقتصادية حادة، لاحظت أن معظم المستثمرين يبيعون محافظهم في ذعر. كيف تحلل هذه الظاهرة من منظور 'انحياز الفاعل' ونظرية الندم؟ وما هو السلوك الأمثل للمحلل المنضبط؟",
+    concept: "انحياز الفاعل ونظرية الندم",
+    definition: "انحياز الفاعل: الميل للتصرف والتحرك بدل الانتظار لتقليل التوتر النفسي، حتى لو كان التصرف ضاراً. نظرية الندم: الإنسان يجد عزاءً في الخسارة الجماعية أكثر من تحمل مسؤولية قرار فردي مختلف.",
+    hint: "فكر: لماذا الخسارة مع الجميع أقل إيلاماً من الخسارة وحيداً؟ وما الذي يدفع المستثمر للبيع رغم معرفته بأنه خطأ؟"
+  },
+  {
+    q: "قارن بين كيف يرى مستثمر عادي انتخابات رئاسية وكيف يراها المحلل الاقتصادي المنضبط. ما الفارق الجوهري في طريقة التفكير والقرار؟",
+    concept: "الضجيج مقابل الأساسيات والأفق الزمني",
+    definition: "الضجيج الاقتصادي: الأحداث قصيرة المدى التي تحرك المشاعر دون أن تغير الأساسيات الفعلية (سياسة، أزمة، خبر). الأفق الزمني: المدة التي ينظر فيها المستثمر للمستقبل — كلما طالت كلما امتص تقلبات الضجيج.",
+    hint: "فكر: الأسواق ارتفعت تحت حكام ديمقراطيين وجمهوريين. هل الانتخابات تغير أرباح الشركات؟ متى يصبح الحدث السياسي فرصة شراء؟"
+  },
+  {
+    q: "ما الدرس الذي يمكن استخلاصه من قصة دراكنميلر وصندوق كوانتوم لفهم العلاقة بين التحليل الصحيح والانضباط العاطفي في بناء الثروة؟",
+    concept: "معادلة بناء الثروة والحياد العاطفي",
+    definition: "الحياد العاطفي: القدرة على عزل المشاعر (خوف، طمع، FOMO) عن عملية اتخاذ القرار المالي. معادلة الثروة: (التحليل الأساسي + الذكاء) × الحياد العاطفي — إذا كان الحياد صفراً، فالنتيجة صفر.",
+    hint: "فكر: دراكنميلر كان يعرف الحقيقة لكنه تصرف بعكسها. ما الذي يجعل الإنسان يعمل ضد قناعاته الخاصة؟ وكيف يبني المحلل 'درعه' النفسي؟"
+  },
+  {
+    q: "كيف يمكن توظيف مفهوم 'مصفوفة الاحتمالات مقابل العوائد' لتقييم فرصة استثمارية؟ وما الذي يميز تفكير المستثمر الخبير عن المبتدئ في هذا السياق؟",
+    concept: "مصفوفة الاحتمالات مقابل العوائد",
+    definition: "مصفوفة الاحتمالات: إطار يقيّم كل فرصة بمحورين: احتمالية النجاح/التنفيذ (المحور الأفقي) وحجم العائد المحتمل (المحور العمودي). المستثمر الهاوي يركز على العائد فقط، بينما الخبير يركز على الاحتمالية الفعلية للنجاح.",
+    hint: "فكر: لماذا يرفض بافيت فرصاً ذات عائد ضخم؟ ما الفرق بين فرصة 'جذابة' وفرصة 'ذكية'؟ كيف تقيّم احتمالية النجاح قبل العائد؟"
+  }
+];
+
+// ==================== STATE ====================
+let currentCard = 0;
+let cardFlipped = false;
+let seenCards = new Set();
+let currentQuiz = 0;
+let quizScore = 0;
+let timerInterval = null;
+let totalSeconds = 15 * 60;
+let elapsedSeconds = 0;
+let openConcept = null;
+
+// ==================== TIMER ====================
+function startTimer() {
+  if (timerInterval) return;
+  timerInterval = setInterval(() => {
+    elapsedSeconds++;
+    const remaining = totalSeconds - elapsedSeconds;
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+      document.getElementById('timerDisplay').textContent = '00:00';
+      return;
+    }
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    const display = document.getElementById('timerDisplay');
+    const bar = document.getElementById('timerBar');
+    display.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const pct = ((totalSeconds - remaining) / totalSeconds) * 100;
+    bar.style.width = pct + '%';
+    if (remaining <= 120) {
+      display.classList.add('warning');
+      bar.classList.add('warning');
+    }
+  }, 1000);
+}
+
+// ==================== SCREENS ====================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  startTimer();
+
+  if (id === 'flashcardsScreen') renderFlashcards();
+  if (id === 'quizScreen') renderQuiz();
+  if (id === 'conceptsScreen') renderConcepts();
+  if (id === 'analystScreen') renderAnalyst();
+  if (id === 'namesScreen') renderNamesScreen();
+}
+
+// ==================== FLASHCARDS ====================
+function renderFlashcards() {
+  updateCard();
+  renderDots();
+}
+
+function updateCard() {
+  const card = flashcards[currentCard];
+  document.getElementById('cardQuestion').textContent = card.q;
+  document.getElementById('cardAnswer').textContent = card.a;
+  document.getElementById('cardCounter').textContent = `${currentCard + 1} / ${flashcards.length}`;
+  document.getElementById('prevBtn').disabled = currentCard === 0;
+  document.getElementById('nextBtn').disabled = currentCard === flashcards.length - 1;
+
+  const fc = document.getElementById('flashcard');
+  fc.classList.remove('flipped');
+  cardFlipped = false;
+  seenCards.add(currentCard);
+  updateDots();
+}
+
+function flipCard() {
+  const fc = document.getElementById('flashcard');
+  cardFlipped = !cardFlipped;
+  fc.classList.toggle('flipped', cardFlipped);
+}
+
+function changeCard(dir) {
+  const newIdx = currentCard + dir;
+  if (newIdx < 0 || newIdx >= flashcards.length) return;
+  currentCard = newIdx;
+  updateCard();
+}
+
+function renderDots() {
+  const wrap = document.getElementById('progressDots');
+  wrap.innerHTML = flashcards.map((_, i) =>
+    `<div class="dot" id="dot${i}"></div>`
+  ).join('');
+}
+
+function updateDots() {
+  flashcards.forEach((_, i) => {
+    const dot = document.getElementById(`dot${i}`);
+    if (!dot) return;
+    dot.className = 'dot' + (i === currentCard ? ' active' : seenCards.has(i) ? ' seen' : '');
+  });
+}
+
+// ==================== QUIZ ====================
+function renderQuiz() {
+  currentQuiz = 0;
+  quizScore = 0;
+  showQuestion();
+}
+
+function showQuestion() {
+  const container = document.getElementById('quizContent');
+  if (currentQuiz >= quizQuestions.length) {
+    showResult();
+    return;
+  }
+  const q = quizQuestions[currentQuiz];
+  const pct = ((currentQuiz + 1) / quizQuestions.length) * 100;
+  document.getElementById('quizProgress').textContent = `السؤال ${currentQuiz + 1} من ${quizQuestions.length}`;
+  document.getElementById('quizProgressFill').style.width = pct + '%';
+
+  container.innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-q-num">السؤال ${currentQuiz + 1} / ${quizQuestions.length}</div>
+      <div class="quiz-question">${q.q}</div>
+      <div class="quiz-options">
+        ${q.options.map((opt, i) => `
+          <button class="quiz-option" onclick="selectOption(${i})">${opt}</button>
+        `).join('')}
+      </div>
+      <div class="quiz-explanation" id="quizExp">
+        <strong>💡 التفسير:</strong> ${q.exp}
+      </div>
+    </div>
+    <button class="quiz-next-btn" id="quizNextBtn" onclick="nextQuestion()">
+      ${currentQuiz === quizQuestions.length - 1 ? 'عرض النتيجة ←' : 'السؤال التالي ←'}
+    </button>
+  `;
+}
+
+function selectOption(idx) {
+  const q = quizQuestions[currentQuiz];
+  const options = document.querySelectorAll('.quiz-option');
+  options.forEach(o => o.classList.add('disabled'));
+  options[idx].classList.add(idx === q.correct ? 'correct' : 'wrong');
+  if (idx !== q.correct) options[q.correct].classList.add('correct');
+  if (idx === q.correct) quizScore++;
+  document.getElementById('quizExp').classList.add('show');
+  document.getElementById('quizNextBtn').classList.add('show');
+}
+
+function nextQuestion() {
+  currentQuiz++;
+  showQuestion();
+}
+
+function showResult() {
+  const pct = Math.round((quizScore / quizQuestions.length) * 100);
+  let msg, sub;
+  if (pct >= 87) { msg = "محلل اقتصادي واعد! 🏆"; sub = "إتقانك للمفاهيم قوي — الآن طبّقها في عين المحلل."; }
+  else if (pct >= 62) { msg = "أداء جيد، واصل البناء 📈"; sub = "راجع البطاقات مرة أخرى لتقوية المفاهيم الناقصة."; }
+  else { msg = "البداية هي البداية 💪"; sub = "راجع ورقة المفاهيم والبطاقات، ثم أعد الاختبار."; }
+
+  document.getElementById('quizContent').innerHTML = `
+    <div class="quiz-result">
+      <div class="result-score">${quizScore}<span>/${quizQuestions.length}</span></div>
+      <div class="result-msg">${msg}</div>
+      <div class="result-sub">${sub}</div>
+      <button class="retry-btn" onclick="renderQuiz()">إعادة الاختبار ↺</button>
+    </div>
+  `;
+  document.getElementById('quizProgress').textContent = 'النتيجة النهائية';
+  document.getElementById('quizProgressFill').style.width = '100%';
+}
+
+// ==================== CONCEPTS ====================
+function renderConcepts() {
+  const list = document.getElementById('conceptsList');
+  list.innerHTML = concepts.map((c, i) => `
+    <div class="concept-item" id="concept${i}" style="--concept-color:${c.color}; --concept-bg:${c.bg}">
+      <div class="concept-header" onclick="toggleConcept(${i})">
+        <div>
+          <div class="concept-term">${c.term}</div>
+        </div>
+        <span class="concept-tag" style="background:${c.bg}; color:${c.color}">${c.tag}</span>
+        <span class="concept-chevron">▼</span>
+      </div>
+      <div class="concept-body">
+        <div class="concept-def">${c.def}</div>
+        <div class="concept-example">📌 ${c.example}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleConcept(i) {
+  const item = document.getElementById(`concept${i}`);
+  const isOpen = item.classList.contains('open');
+  if (openConcept !== null && openConcept !== i) {
+    document.getElementById(`concept${openConcept}`)?.classList.remove('open');
+  }
+  item.classList.toggle('open', !isOpen);
+  openConcept = isOpen ? null : i;
+}
+
+// ==================== ANALYST ====================
+function renderAnalyst() {
+  const wrap = document.getElementById('analystQuestions');
+  wrap.innerHTML = analystQuestions.map((q, i) => `
+    <div class="analyst-question-card">
+      <div class="analyst-q-header">
+        <div class="analyst-q-num">${i + 1}</div>
+        <div class="analyst-q-text">${q.q}</div>
+      </div>
+
+      <div class="definition-box" id="defBox${i}">
+        <div class="def-title">📚 المفهوم الأساسي: ${q.concept}</div>
+        <div class="def-text">${q.definition}</div>
+      </div>
+
+      <textarea class="analyst-textarea" id="analystTA${i}" placeholder="اكتب تحليلك هنا... لا إجابة خاطئة، المهم طريقة تفكيرك."></textarea>
+
+      <div class="analyst-actions">
+        <button class="hint-btn" onclick="showDefinition(${i})">📚 أعطني التعريف</button>
+        <button class="hint-btn" onclick="showHint(${i}, \`${escapeJs(q.hint)}\`)">💡 تلميح</button>
+        <button class="analyze-btn" onclick="copyForClaude(${i})">📋 انسخ للتحليل مع Claude</button>
+      </div>
+
+      <div class="ai-feedback" id="aiFeedback${i}">
+        <div class="ai-feedback-title">✅ تم النسخ!</div>
+        <div id="aiFeedbackText${i}"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function escapeJs(str) {
+  return str.replace(/`/g, '\\`').replace(/\$/g, '\\$');
+}
+
+function showDefinition(i) {
+  const box = document.getElementById(`defBox${i}`);
+  box.classList.add('show');
+}
+
+function showHint(i, hint) {
+  const box = document.getElementById(`defBox${i}`);
+  box.innerHTML = `<div class="def-title">💡 تلميح للتفكير</div><div class="def-text">${hint}</div>`;
+  box.classList.add('show');
+}
+
+// ==================== COPY FOR CLAUDE ====================
+function copyForClaude(i) {
+  const ta = document.getElementById(`analystTA${i}`);
+  const feedback = document.getElementById(`aiFeedback${i}`);
+  const feedbackText = document.getElementById(`aiFeedbackText${i}`);
+  const answer = ta.value.trim();
+  const q = analystQuestions[i];
+
+  if (!answer) {
+    ta.style.borderColor = '#c0392b';
+    ta.placeholder = '⚠️ اكتب تحليلك أولاً ثم انسخ...';
+    setTimeout(() => { ta.style.borderColor = ''; ta.placeholder = 'اكتب تحليلك هنا... لا إجابة خاطئة، المهم طريقة تفكيرك.'; }, 2500);
+    return;
+  }
+
+  const textToCopy =
+`أنا أتعلم الاقتصاد السلوكي من درس "سيكولوجية الثروة". أريدك أن تكون مرشدي كمحلل اقتصادي — لا تصحح فقط، بل ابنِ تفكيري.
+
+📌 السؤال التحليلي:
+${q.q}
+
+📝 إجابتي:
+${answer}
+
+🎯 المفهوم المرتبط: ${q.concept}
+
+أريد منك:
+١- ما الذي أصبت فيه (حتى لو جزئياً)
+٢- أين أوسّع تفكيري بمفاهيم اقتصادية أعمق
+٣- كيف يفكر المحلل الحقيقي في هذه المسألة
+٤- سؤال إضافي يفتح أمامي أفقاً جديداً`;
+
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    feedback.classList.add('show');
+    feedbackText.innerHTML = `
+      الآن افتحي <strong>claude.ai</strong> في تبويب جديد والصقي النص هناك للحصول على تحليل مجاني مفصّل. 🚀
+      <br><br>
+      <a href="https://claude.ai" target="_blank" style="display:inline-block;margin-top:6px;padding:9px 20px;background:#0f2044;color:white;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.85rem;">
+        افتح Claude ←
+      </a>`;
+  }).catch(() => {
+    // Fallback: show text to copy manually
+    feedback.classList.add('show');
+    feedbackText.innerHTML = `
+      <div style="margin-bottom:8px;">انسخي النص التالي يدوياً والصقيه في claude.ai:</div>
+      <textarea style="width:100%;height:120px;font-size:0.8rem;padding:8px;border:1px solid #ddd;border-radius:6px;direction:rtl;font-family:Cairo,sans-serif;" readonly onclick="this.select()">${textToCopy}</textarea>
+      <a href="https://claude.ai" target="_blank" style="display:inline-block;margin-top:8px;padding:9px 20px;background:#0f2044;color:white;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.85rem;">افتح Claude ←</a>`;
+  });
+}
+
+// ==================== NAMES & TERMS ====================
+
+const allNames = [
+  { cat: 'person', front: 'وارن بافيت / Warren Buffett', back: 'أحد أعظم المستثمرين في التاريخ. مؤسس وقائد بيركشاير هاثاواي. شهير بفلسفة الاستثمار القيمي طويل الأمد وانضباطه العاطفي الاستثنائي. درسه: "إذا لم تكن منضبطاً في الأمور الصغيرة، فلن تكون منضبطاً في الكبيرة."' },
+  { cat: 'person', front: 'ستانلي دراكنميلر / Stanley Druckenmiller', back: 'مدير صندوق كوانتوم الشهير. عبقري في التحليل لكنه خسر 3 مليارات دولار عام 2000 بسبب FOMO — أثبت أن التحليل الصحيح بلا انضباط عاطفي = صفر.' },
+  { cat: 'person', front: 'جيسي ليفرمور / Jesse Livermore', back: 'أسطورة وول ستريت في القرن العشرين. قال: "عمر ما كان تفكيري أو ذكائي هو السبب في ربح الملايين. السر كان في قدرتي على الجلوس ثابتاً." رمز الصبر في الاستثمار.' },
+  { cat: 'person', front: 'تيري موفيت / Terrie Moffitt', back: 'عالمة نفس نيوزيلندية قادت دراسة دونيدن الطولية (1972-2011). أثبتت أن ضبط النفس في الطفولة يتنبأ بالثروة والصحة في البلوغ — حتى مع تساوي الذكاء والطبقة الاجتماعية.' },
+  { cat: 'person', front: 'ريبيكا كيندي / Rebecca Kennedy', back: 'محللة استثمارية صاحبة مقولة: "الأفق الزمني للمحافظ الاستثمارية أطول بكثير من مدة بقاء أي رئيس في منصبه." رمز الاستراتيجية بعيدة المدى والجمود التكتيكي.' },
+  { cat: 'institution', front: 'بيركشاير هاثاواي / Berkshire Hathaway', back: 'الشركة القابضة التي يديرها وارن بافيت. نموذج حي للاستثمار طويل الأمد القائم على تحليل الأساسيات والانضباط العاطفي عبر عقود. واحدة من أغلى الأسهم في التاريخ.' },
+  { cat: 'institution', front: 'صندوق كوانتوم / Quantum Fund', back: 'صندوق التحوط الذي أداره دراكنميلر وحقق نجاحات أسطورية، ثم خسر 3 مليارات في 6 أسابيع عام 2000 بسبب الاستسلام لـ FOMO في فقاعة الدوت كوم.' },
+  { cat: 'institution', front: 'S&P 500', back: 'مؤشر يضم أكبر 500 شركة أمريكية. المقياس الذهبي لأداء السوق الأمريكي. ارتفع 23% عام 2016 رغم الذعر بعد انتخاب ترامب — درس في الفصل بين الضجيج والأساسيات.' },
+  { cat: 'institution', front: 'Dow Jones / داو جونز', back: 'أقدم وأشهر مؤشرات السوق الأمريكي. يضم 30 شركة صناعية كبرى. ارتفع 31% عام 2016 رغم توقعات الانهيار — دليل على أن الضجيج العاطفي لا يعكس الأساسيات.' },
+  { cat: 'term', front: 'Action Bias', back: 'انحياز الفاعل — الميل التلقائي للتحرك وفعل أي شيء بدل الصبر، حتى لو كان الفعل ضاراً. الدافع الحقيقي: التخلص من توتر عدم اليقين لا تحقيق الربح.' },
+  { cat: 'term', front: 'Herding Behavior', back: 'سلوك القطيع — اتجاه المستثمرين لاتباع الجماعة في قرارات البيع والشراء حتى بغير اقتناع، خوفاً من الندم على الموقف الفردي المختلف.' },
+  { cat: 'term', front: 'Regret Theory', back: 'نظرية الندم — في التمويل السلوكي: المستثمر يجد عزاءً نفسياً في الخسارة الجماعية. "الخسارة مع الجماعة أسهل عاطفياً من تحمل مسؤولية قرار فردي ضد السوق."' },
+  { cat: 'term', front: 'FOMO', back: 'Fear Of Missing Out — الخوف من الفوات. يدفع المستثمر للدخول في مراكز خطرة في أسوأ توقيت. أسقط دراكنميلر حين أعاد الدخول لسوق التكنولوجيا عام 2000 بـ6 مليارات.' },
+  { cat: 'term', front: 'Behavioral Finance', back: 'التمويل السلوكي — فرع اقتصادي يدرس تأثير العوامل النفسية على قرارات المستثمرين، في مقابل النموذج التقليدي الذي يفترض العقلانية الكاملة. أساس هذا الدرس كله.' },
+  { cat: 'term', front: 'Market Fundamentals', back: 'أساسيات السوق — المؤشرات الجوهرية كالأرباح والتدفق النقدي والميزانية العمومية. هي الحقيقة خلف الضجيج العاطفي. المحلل الحقيقي يتمسك بها حين يهرب الجميع.' },
+  { cat: 'term', front: 'Emotional Noise', back: 'الضجيج العاطفي — ردود فعل السوق الانفعالية تجاه الأخبار دون تغيّر الأساسيات الفعلية. مهارة المحلل: تمييز الضجيج عن الإشارات الحقيقية المؤثرة في القيمة.' },
+  { cat: 'term', front: 'Self-Control', back: 'ضبط النفس — القدرة على كبح النزوات العاطفية وتأجيل الإشباع الفوري. دراسة دونيدن: المتنبئ الأقوى بالنجاح المالي والصحي على المدى البعيد.' },
+  { cat: 'term', front: 'Time Horizon', back: 'الأفق الزمني — المدة التي ينظر فيها المستثمر للمستقبل. الأفق الطويل يمتص التقلبات ويحمي من قرارات الذعر. كيندي: "أطول بكثير من عمر أي رئيس في منصبه."' },
+  { cat: 'term', front: 'Wealth Transfer', back: 'نقل الثروة — آلية اقتصادية حقيقية: السوق ينقل الثروة من غير الصبورين الذين يتصرفون انفعالياً إلى المنضبطين الذين يتمسكون بالتحليل وقت الذعر.' },
+  { cat: 'term', front: 'IQ / Intelligence Quotient', back: 'معامل الذكاء — مقياس القدرة العقلية. هذا الدرس يثبت أنه غير كافٍ وحده لبناء الثروة. الانضباط العاطفي يفوقه أهميةً في الاستثمار — التحليل × صفر = صفر.' },
+  { cat: 'advanced', front: 'Loss Aversion / النفور من الخسارة', back: 'التحيز النفسي الذي يجعل ألم الخسارة أقوى مرتين من متعة الربح بنفس القيمة. يدفع المستثمرين للاحتفاظ بالخاسر وبيع الرابح — عكس المنطق تماماً.' },
+  { cat: 'advanced', front: 'Confirmation Bias / تحيز التأكيد', back: 'الميل لقراءة المعلومات التي تؤكد قناعاتنا المسبقة وتجاهل ما يخالفها. خطير على المحلل لأنه يعميه عن تغيّر الأساسيات ويجعله يرى ما يريد لا ما هو حقيقي.' },
+  { cat: 'advanced', front: 'Recency Bias / تحيز الحداثة', back: 'الميل للاعتقاد بأن الأحداث الأخيرة ستستمر إلى الأبد. المستثمر يظن السوق الصاعد لن ينتهي، والهابط لن يتوقف — وكلاهما خطأ تاريخياً.' },
+  { cat: 'advanced', front: 'Mean Reversion / العودة للمتوسط', back: 'مبدأ إحصائي: الأسعار والعوائد تميل للعودة لمتوسطاتها التاريخية على المدى البعيد. أداة قوية لتحديد الأصول المبالغ في تقييمها أو المُهملة ظلماً.' },
+  { cat: 'advanced', front: 'Volatility / Bull & Bear Market', back: 'التقلب (Volatility): درجة تذبذب السعر. سوق الثور (Bull Market): سوق صاعد يسوده التفاؤل. سوق الدب (Bear Market): سوق هابط 20%+ يسوده التشاؤم. المحلل يرى الفرص في كليهما.' },
+  { cat: 'advanced', front: 'Liquidity / السيولة', back: 'مدى سهولة تحويل الأصل إلى نقد دون خسارة كبيرة في قيمته. الأصل السائل (مثل الأسهم الكبرى) يُباع فوراً. الأصل غير السائل (مثل العقار) يحتاج وقتاً. المحلل يوازن بين العائد والسيولة.' },
+];
+
+let currentNamesFilter = 'all';
+let filteredNames = [...allNames];
+let currentNamesCard = 0;
+let namesFlipped = false;
+let seenNamesCards = new Set();
+
+const catLabels = { person: '👤 شخص', institution: '🏛️ مؤسسة / سوق', term: '🔤 مصطلح', advanced: '⭐ مفهوم متقدم' };
+
+function filterNames(cat, btn) {
+  document.querySelectorAll('.names-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  currentNamesFilter = cat;
+  filteredNames = cat === 'all' ? [...allNames] : allNames.filter(n => n.cat === cat);
+  currentNamesCard = 0;
+  seenNamesCards = new Set();
+  updateNamesCard();
+  renderNamesDots();
+}
+
+function renderNamesScreen() {
+  filteredNames = [...allNames];
+  currentNamesCard = 0;
+  seenNamesCards = new Set();
+  namesFlipped = false;
+  currentNamesFilter = 'all';
+  document.querySelectorAll('.names-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+  updateNamesCard();
+  renderNamesDots();
+}
+
+function updateNamesCard() {
+  if (!filteredNames.length) return;
+  const card = filteredNames[currentNamesCard];
+  document.getElementById('namesCardFront').textContent = card.front;
+  document.getElementById('namesCardBack').textContent = card.back;
+  document.getElementById('namesCatBadge').textContent = catLabels[card.cat] || card.cat;
+  document.getElementById('namesCounter').textContent = `${currentNamesCard + 1} / ${filteredNames.length}`;
+  document.getElementById('namesPrevBtn').disabled = currentNamesCard === 0;
+  document.getElementById('namesNextBtn').disabled = currentNamesCard === filteredNames.length - 1;
+  document.getElementById('namesCard').classList.remove('flipped');
+  namesFlipped = false;
+  seenNamesCards.add(currentNamesCard);
+  updateNamesDots();
+}
+
+function flipNamesCard() {
+  namesFlipped = !namesFlipped;
+  document.getElementById('namesCard').classList.toggle('flipped', namesFlipped);
+}
+
+function changeNamesCard(dir) {
+  const newIdx = currentNamesCard + dir;
+  if (newIdx < 0 || newIdx >= filteredNames.length) return;
+  currentNamesCard = newIdx;
+  updateNamesCard();
+}
+
+function renderNamesDots() {
+  const wrap = document.getElementById('namesProgressDots');
+  wrap.innerHTML = filteredNames.map((_, i) => `<div class="dot" id="ndot${i}"></div>`).join('');
+  updateNamesDots();
+}
+
+function updateNamesDots() {
+  filteredNames.forEach((_, i) => {
+    const dot = document.getElementById(`ndot${i}`);
+    if (!dot) return;
+    if (i === currentNamesCard) { dot.className = 'dot active'; dot.style.background = '#7c3aed'; }
+    else if (seenNamesCards.has(i)) { dot.className = 'dot seen'; dot.style.background = '#c4b5fd'; }
+    else { dot.className = 'dot'; dot.style.background = ''; }
+  });
+}
+
+// ==================== INIT ====================
+renderFlashcards();
+</script>
+</body>
+</html>
